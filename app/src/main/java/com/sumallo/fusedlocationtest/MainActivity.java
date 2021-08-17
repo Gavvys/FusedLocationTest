@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationCallback locationCallback;
 
     TextView tv_latitude, tv_longitude, tv_elevation;
-    Button button;
+    Button button, button2;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         tv_elevation = findViewById(R.id.tv_elevation);
 
         button = findViewById(R.id.button);
+        button2 = findViewById(R.id.button2);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         button.setOnClickListener(view -> startLocationUpdates());
+        button2.setOnClickListener(view -> stopLocationUpdates());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -95,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Fetching location updates...", Toast.LENGTH_SHORT).show();
             fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
         }
+    }
+    private void stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
 }
